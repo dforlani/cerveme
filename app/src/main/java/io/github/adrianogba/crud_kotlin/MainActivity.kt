@@ -14,7 +14,6 @@ import com.google.gson.JsonArray
 import com.google.gson.JsonParser
 import io.github.adrianogba.crud_kotlin.adapter.VeiculoListAdapter
 import io.github.adrianogba.crud_kotlin.model.Veiculo
-import io.github.adrianogba.crud_kotlin.old.VeiculoDetalheActivity_old
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.ArrayList
 import java.util.HashMap
@@ -91,11 +90,11 @@ class MainActivity : AppCompatActivity() {
                 errormessage.text = "Sem veículos cadastrados no momento."
                 veiculosListView.emptyView = errormessage
 
-                veiculosListView.setOnItemClickListener { _, view, position, _ ->
-                    val i = Intent(view.context, VeiculoDetalheActivity_old::class.java)
-                    i.putExtra("id", veiculosList[position].id)
-                    view.context.startActivity(i)
-                }
+               // veiculosListView.setOnItemClickListener { _, view, position, _ ->
+                 //   val i = Intent(view.context, VeiculoDetalheActivity_old::class.java)
+                //    i.putExtra("id", veiculosList[position].id)
+               //     view.context.startActivity(i)
+              //  }
 
                 progressDialog.cancel()
                 swipeRefresh.isRefreshing = false
