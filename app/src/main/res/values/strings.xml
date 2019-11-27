@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">CRUD-Kotlin</string>
-    <string name="webservice">http://192.168.123.106/cervejaria/web/pedidoapp/test</string>
+    <string name="webservice">http://192.168.1.104/cervejaria/web/pedidoapp/test</string>
 </resources>

@@ -18,6 +18,12 @@ import io.github.adrianogba.crud_kotlin.old.VeiculoDetalheActivity_old
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.ArrayList
 import java.util.HashMap
+import android.os.StrictMode
+import android.support.v4.app.SupportActivity
+import android.support.v4.app.SupportActivity.ExtraData
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -37,6 +43,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
+        StrictMode.setThreadPolicy(policy)
         jsonParser = JsonParser()
         gson = Gson()
 

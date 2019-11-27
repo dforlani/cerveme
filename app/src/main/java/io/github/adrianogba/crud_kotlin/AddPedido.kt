@@ -26,6 +26,17 @@ import com.android.volley.Request.Method.POST
 import android.support.v4.app.SupportActivity
 import android.support.v4.app.SupportActivity.ExtraData
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import android.os.AsyncTask.execute
+import com.android.volley.toolbox.HttpResponse
+import okhttp3.FormBody
+import okhttp3.HttpUrl
+
+
+import okhttp3.MediaType.Companion.toMediaType
+
+
+
+
 
 
 
@@ -70,44 +81,9 @@ class AddPedido : AppCompatActivity() {
         }
 
         btncadastrar.setOnClickListener {
-            //teste
-           // val requestQueue = Volley.newRequestQueue(getActivity())
-            val params = HashMap<String, String>()
-            if (editar) {
-                params["PATH"] = "updateVeiculo"
-            } else {
-                params["PATH"] = "addVeiculo"
-            }
-            params["MARCA"] = etmarca.text.toString().trim { it <= ' ' }
-            params["MODELO"] = etmodelo.text.toString().trim { it <= ' ' }
-            val jsObjRequest = VolleyCustomRequest(Request.Method.GET,
-                    getString(R.string.webservice),
-                    params,
-                    Response.Listener { response ->
-                        try {
-                            progressDialog.cancel()
-
-                            val i = Intent(this@AddPedido, MainActivity::class.java)
-                            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                            startActivity(i)
-
-                        } catch (e: Exception) {
-                            Toast.makeText(this@AddPedido, "Problemas na comuncação com o servidor.", Toast.LENGTH_SHORT).show()
-                            e.printStackTrace()
-                            progressDialog.cancel()
-                        }
-                    },
-                            Response.ErrorListener {
-                        error ->
-                        var i = 0
-                    }
-            )
-
-            queue.add(jsObjRequest)
-            //teste
 
 
-
+            postTeste()
 
 
 
@@ -238,4 +214,46 @@ class AddPedido : AppCompatActivity() {
         }
         return true
     }
+
+
+    private val client = okhttp3.OkHttpClient()
+
+      fun bowlingJson(player1:String, player2:String):String {
+        return "{'winCondition':'HIGH_SCORE',"         + "'players':["        + "{'name':'" + player1 + "','history':[10,8,6,7,8],'color':-13388315,'total':39},"        + "{'name':'" + player2 + "','history':[6,10,5,10,10],'color':-48060,'total':41}"        + "]}"
+  }
+
+
+
+    fun postTeste() {
+        val url : HttpUrl= HttpUrl.Builder()
+             .scheme("http")
+             .host("192.168.123.106")
+             .addPathSegments("cervejaria/web/pedidoapp/cardapio")
+             .addQueryParameter("q", "polar bears") //inclui parâmetros GET
+             .build()
+
+        //parâmetros POST
+        val formBody = FormBody.Builder()
+                .add("search", "Jurassic Park")
+                .build()
+
+        //montagem da requisição
+        val request = okhttp3.Request.Builder()
+                .url(url)
+                .post(formBody)
+                .build()
+
+        //execução da requisição
+        client.newCall(request).execute().use { response ->
+            if (!response.isSuccessful)
+                throw java.io.IOException("Unexpected code $response")
+
+            for ((name, value) in response.headers) {
+                println("$name: $value")
+            }
+
+            println(response.body!!.string())
+        }
+    }
+
 }
