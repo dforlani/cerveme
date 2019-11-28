@@ -38,7 +38,7 @@ class CardapioListAdapter(private var activity: Activity, private var items: Arr
         val viewHolder: ViewHolder
         if (convertView == null) {
             val inflater = activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            view = inflater.inflate(R.layout.unidade_cardapio_aux2, null)
+            view = inflater.inflate(R.layout.item_cardapio, null)
             viewHolder = ViewHolder(view)
             view?.tag = viewHolder
         } else {
