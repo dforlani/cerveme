@@ -53,14 +53,23 @@
             android:shrinkColumns="*"
             android:stretchColumns="*">
 
-            <include android:id="@+id/conjunto1"
-                layout="@layout/unidade_cardapio"
-                />
+            <!-- <include android:id="@+id/conjunto1"
+                 layout="@layout/unidade_cardapio"
+                 />
 
-            <include android:id="@+id/conjunto2"
-                layout="@layout/unidade_cardapio"
-                />
-
+             <include android:id="@+id/conjunto2"
+                 layout="@layout/unidade_cardapio"
+                 />
+ -->
         </TableLayout>
+
+        <ListView
+            android:id="@+id/listViewCardapio"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </ListView>
     </RelativeLayout>
+
+
 </RelativeLayout>

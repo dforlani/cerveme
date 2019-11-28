@@ -3,11 +3,14 @@ package io.github.cerveme.crud_kotlin
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.widget.ArrayAdapter
+import android.widget.ListView
 import android.widget.TextView
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
+import io.github.cerveme.crud_kotlin.adapter.CardapioListAdapter
 import io.github.cerveme.crud_kotlin.model.Cardapio
-import kotlinx.android.synthetic.main.activity_add_veiculo.*
+import kotlinx.android.synthetic.main.activity_add_pedido.*
 import okhttp3.FormBody
 import okhttp3.HttpUrl
 import java.util.ArrayList
@@ -18,15 +21,22 @@ class ViewPedido : AppCompatActivity() {
     private var client = okhttp3.OkHttpClient()
     private var resultado: String = ""
     private var cardapioList: ArrayList<Cardapio> = ArrayList()
+    private var adapter:CardapioListAdapter? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_veiculo)
+        setContentView(R.layout.activity_add_pedido)
+
+
 
         btnCadastrar.setOnClickListener {
-            requisitaCardapio()
+
         }
+
+        requisitaCardapio()
+
+
     }
 
     fun requisitaCardapio() {
@@ -34,7 +44,7 @@ class ViewPedido : AppCompatActivity() {
                 .scheme("http")
                 .host("192.168.123.106")
                 .addPathSegments("cervejaria/web/pedidoapp/cardapio")
-                .addQueryParameter("q", "polar bears") //inclui parâmetros GET
+                //.addQueryParameter("q", "polar bears") //inclui parâmetros GET
                 .build()
 
         //parâmetros POST
@@ -71,13 +81,10 @@ class ViewPedido : AppCompatActivity() {
 
         cardapioList.addAll(list)
 
-        cardapioList.forEach { cardapio ->
-            val tv = TextView(this)
-            tv.textSize = 20f
-            tv.text = cardapio.denominacao
-            cardapioContainer.addView(tv)
+        //adapter =  ArrayAdapter(this, android.R.layout.simple_list_item_1, cardapioList)
+        adapter = CardapioListAdapter(this, cardapioList)
 
-        }
+        listViewCardapio.adapter = adapter
 
 
     }

@@ -4,4 +4,10 @@ class Cardapio {
     lateinit var pk_preco: String
     lateinit var denominacao: String
     lateinit var quantidade: String
+
+
+    override fun toString()
+    : String {
+        return denominacao
+    }
 }
