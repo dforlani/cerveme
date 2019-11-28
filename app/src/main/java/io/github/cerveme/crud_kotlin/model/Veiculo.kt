@@ -1,4 +1,4 @@
-package io.github.adrianogba.crud_kotlin.model
+package io.github.cerveme.crud_kotlin.model
 
 /**
  * Created by Adrianogba on 2/15/2018.

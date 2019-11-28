@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="io.github.adrianogba.crud_kotlin.MainActivity">
+    tools:context="io.github.cerveme.crud_kotlin.MainActivity">
 
     <RelativeLayout
         android:id="@+id/bar"

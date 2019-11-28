@@ -1,4 +1,4 @@
-package io.github.adrianogba.crud_kotlin
+package io.github.cerveme.crud_kotlin
 
 import android.app.ProgressDialog
 import android.content.Intent
@@ -12,16 +12,12 @@ import com.android.volley.toolbox.Volley
 import com.google.gson.Gson
 import com.google.gson.JsonArray
 import com.google.gson.JsonParser
-import io.github.adrianogba.crud_kotlin.adapter.VeiculoListAdapter
-import io.github.adrianogba.crud_kotlin.model.Veiculo
+import io.github.cerveme.crud_kotlin.adapter.VeiculoListAdapter
+import io.github.cerveme.crud_kotlin.model.Veiculo
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.ArrayList
 import java.util.HashMap
 import android.os.StrictMode
-import android.support.v4.app.SupportActivity
-import android.support.v4.app.SupportActivity.ExtraData
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-
 
 
 class MainActivity : AppCompatActivity() {
@@ -50,7 +46,7 @@ class MainActivity : AppCompatActivity() {
         swipeRefresh.setOnRefreshListener { carregarLista() }
 
         btnAddPedido.setOnClickListener({ v ->
-            val i = Intent(v.context, AddPedido::class.java)
+            val i = Intent(v.context, ViewPedido::class.java)
             v.context.startActivity(i)
         })
 

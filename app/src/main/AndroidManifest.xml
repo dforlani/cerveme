@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="io.github.adrianogba.crud_kotlin">
+    package="io.github.cerveme.crud_kotlin">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".BackendVolley"/>
-        <activity android:name=".MainActivity"
+        <activity android:name="io.github.cerveme.crud_kotlin.MainActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="sensorPortrait">
             <intent-filter>
@@ -29,7 +29,7 @@
         <activity android:name=".old.AddVeiculo_old"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="sensorPortrait"/>
-        <activity android:name=".AddPedido"
+        <activity android:name="io.github.cerveme.crud_kotlin.ViewPedido"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="sensorPortrait"/>
     </application>

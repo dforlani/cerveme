@@ -1,4 +1,4 @@
-package io.github.adrianogba.crud_kotlin
+package io.github.cerveme.crud_kotlin
 
 import org.junit.Test
 

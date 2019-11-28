@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="io.github.adrianogba.crud_kotlin.AddPedido">
+    tools:context="io.github.cerveme.crud_kotlin.ViewPedido">
 
     <RelativeLayout
         android:id="@+id/bar"
@@ -15,44 +15,52 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:textSize="19dp"
-            android:textStyle="bold"
+            android:text="@string/addPedido"
             android:textColor="#FAFAFA"
-            android:text="@string/addPedido" />
+            android:textSize="19dp"
+            android:textStyle="bold" />
 
         <RelativeLayout
-            android:id="@+id/btncadastrar"
+            android:id="@+id/btnCadastrar"
             android:layout_width="64dp"
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
-            android:background="?android:selectableItemBackground"
-            >
+            android:background="?android:selectableItemBackground">
+
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/ic_done_black_48px"
-                android:tint="#FAFAFA"
                 android:layout_margin="10dp"
-                />
-
-
+                android:src="@drawable/ic_done_black_48px"
+                android:tint="#FAFAFA" />
         </RelativeLayout>
-
 
     </RelativeLayout>
 
-    <ScrollView
-        android:layout_below="@id/bar"
+    <RelativeLayout
+        android:id="@+id/cardapioContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bar"
+        android:orientation="vertical">
 
-        <RelativeLayout
-            android:id="@+id/VeiculoDetalheContainer"
+
+        <TableLayout
+            android:id="@+id/cardapioTabela"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="match_parent"
+            android:background="#ffffff"
+            android:shrinkColumns="*"
+            android:stretchColumns="*">
 
-    </ScrollView>
+            <include android:id="@+id/conjunto1"
+                layout="@layout/unidade_cardapio"
+                />
 
+            <include android:id="@+id/conjunto2"
+                layout="@layout/unidade_cardapio"
+                />
 
-
+        </TableLayout>
+    </RelativeLayout>
 </RelativeLayout>

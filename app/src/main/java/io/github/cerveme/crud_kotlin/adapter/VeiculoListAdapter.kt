@@ -1,4 +1,4 @@
-package io.github.adrianogba.crud_kotlin.adapter
+package io.github.cerveme.crud_kotlin.adapter
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -12,9 +12,9 @@ import android.widget.TextView
 
 import java.util.ArrayList
 
-import io.github.adrianogba.crud_kotlin.R
+import io.github.cerveme.crud_kotlin.R
 
-import io.github.adrianogba.crud_kotlin.model.Veiculo
+import io.github.cerveme.crud_kotlin.model.Veiculo
 
 /**
  * Created by Adrianogba on 12/26/2017.
