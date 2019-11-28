@@ -24,7 +24,7 @@
                 android:id="@+id/bttMinus"
                 android:layout_width="7dp"
                 android:layout_height="wrap_content"
-                android:background="@drawable/botao_redondo"
+                android:background="@drawable/botao_redondo_minus"
                 android:text="-"
                 android:textSize="80px" />
 
