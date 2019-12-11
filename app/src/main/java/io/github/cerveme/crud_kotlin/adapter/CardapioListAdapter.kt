@@ -12,11 +12,6 @@ import android.widget.EditText
 import android.widget.TextView
 import io.github.cerveme.crud_kotlin.R
 import io.github.cerveme.crud_kotlin.model.Cardapio
-import kotlinx.android.synthetic.main.activity_add_pedido.*
-import kotlinx.android.synthetic.main.unidade_cardapio_aux2.*
-
-
-
 
 import java.util.ArrayList
 
