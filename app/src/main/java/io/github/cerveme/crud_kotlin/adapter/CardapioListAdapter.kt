@@ -27,6 +27,7 @@ class CardapioListAdapter(private var activity: Activity, private var items: Arr
         var btnPlus: Button? = null
         var btnMinus: Button? = null
         var editQuantidade:EditText? = null
+        var posicao:Int = 0
 
         init {
             this.txtTitle = row?.findViewById(R.id.textDenominacao)
@@ -42,6 +43,8 @@ class CardapioListAdapter(private var activity: Activity, private var items: Arr
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val view: View?
         val viewHolder: ViewHolder
+
+
         if (convertView == null) {
             val inflater = activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
             view = inflater.inflate(R.layout.item_cardapio, null)
@@ -55,12 +58,15 @@ class CardapioListAdapter(private var activity: Activity, private var items: Arr
 
         val cardapio = items[position]
         viewHolder.txtTitle?.text = cardapio.denominacao
+        viewHolder.posicao = position
 
         viewHolder.btnPlus?.setOnClickListener {
             var text = viewHolder.editQuantidade
             var i:Int = text?.text.toString().toInt()
             i++
             text?.setText(i.toString())
+
+            items[viewHolder.posicao].quantidade = i.toString()
         }
 
         viewHolder.btnMinus?.setOnClickListener {
@@ -70,6 +76,8 @@ class CardapioListAdapter(private var activity: Activity, private var items: Arr
             if(i < 0)
                 i = 0
             text?.setText(i.toString())
+
+            items[viewHolder.posicao].quantidade = i.toString()
         }
 
 

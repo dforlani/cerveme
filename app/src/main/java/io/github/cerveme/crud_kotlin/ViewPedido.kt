@@ -21,7 +21,7 @@ class ViewPedido : AppCompatActivity() {
 
 
     private var cardapioList: ArrayList<Cardapio> = ArrayList()
-    private var adapter:CardapioListAdapter? = null
+    private var adapter: CardapioListAdapter? = null
     var com = Comunicacao()
 
 
@@ -31,18 +31,25 @@ class ViewPedido : AppCompatActivity() {
 
         btnCadastrar.setOnClickListener {
             //parâmetros POST
+            val formBuilder = FormBody.Builder()
+            cardapioList.forEach {
+                if (it.quantidade.toInt() > 0) {
+                    formBuilder.add("itens[${it.pk_preco}][pk_preco]", it.pk_preco)
+                    formBuilder.add("itens[${it.pk_preco}][quantidade]", it.quantidade)
+                }
+            }
 
-             val formBody = FormBody.Builder()
-                        .add("itens[0][pk_preco]", "10")
-                        .add("itens[0][quantidade]", "11")
 
-                     .add("itens[1][pk_preco]", "15")
-                     .add("itens[1][quantidade]", "16")
-                        .build()
+            val formBody = formBuilder.build()
+
+
             var status = com.enviaPedido(formBody, "703")
-            var int:Int = 9
+            var int: Int = 9
+
 
         }
+
+
 
         requisitaCardapio()
 
@@ -65,7 +72,6 @@ class ViewPedido : AppCompatActivity() {
 
         listViewCardapio.adapter = adapter
     }
-
 
 
 }
