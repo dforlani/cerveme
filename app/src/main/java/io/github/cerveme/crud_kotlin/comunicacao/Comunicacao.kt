@@ -8,7 +8,7 @@ import java.io.IOException
 
 class Comunicacao {
 
-    val ip:String = "192.168.1.106"
+    val ip:String = "192.168.123.106"
     val URL:String = "cervejaria/web/pedidoapp/"
     val CARDAPIO:String = "cardapio"
     val PEDIR:String = "pedir"
