@@ -25,7 +25,7 @@ class DatabaseHelper(context: Context,
         onCreate(db)
     }
 
-    fun addName(name: Cliente) {
+    fun addCliente(name: Cliente) {
         val values = ContentValues()
         values.put(COLUMN_NAME, name.nome)
         val db = this.writableDatabase
@@ -33,7 +33,7 @@ class DatabaseHelper(context: Context,
         db.close()
     }
 
-    fun getAllName(): Cursor? {
+    fun getAllClientes(): Cursor? {
         val db = this.readableDatabase
         return db.rawQuery("SELECT * FROM $TABLE_NAME", null)
     }

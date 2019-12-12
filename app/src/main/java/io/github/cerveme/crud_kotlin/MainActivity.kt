@@ -55,6 +55,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         inicializaCliente()
+        listaClientes()
 
         btnAddPedido.setOnClickListener({ v ->
             val i = Intent(v.context, ViewPedido::class.java)
@@ -107,8 +108,22 @@ class MainActivity : AppCompatActivity() {
     private fun inicializaCliente(){
         val dbHandler = DatabaseHelper(this, null)
         val user = Cliente(pk_cliente, "Diogo")
-        dbHandler.addName(user)
+        dbHandler.addCliente(user)
         Toast.makeText(this, user.nome + "Added to database", Toast.LENGTH_LONG).show()
+    }
+
+    private fun listaClientes(){
+        println("Entrei aquiiiiiiiiiiiiiiiiiiiiii")
+        val dbHandler = DatabaseHelper(this, null)
+        val cursor = dbHandler.getAllClientes()
+        cursor!!.moveToFirst()
+        //tvDisplayName.append((cursor.getString(cursor.getColumnIndex(MindOrksDBOpenHelper.COLUMN_NAME))))
+        while (cursor.moveToNext()) {
+            println(cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_ID)) + cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_NAME)))
+          //  tvDisplayName.append((cursor.getString(cursor.getColumnIndex(MindOrksDBOpenHelper.COLUMN_NAME))))
+           // tvDisplayName.append("\n")
+        }
+        cursor.close()
     }
 
 
