@@ -8,22 +8,20 @@ import java.io.IOException
 
 class Comunicacao {
 
-    val ip:String = "192.168.123.106"
-    val URL:String = "cervejaria/web/pedidoapp/"
-    val CARDAPIO:String = "cardapio"
-    val PEDIR:String = "pedir"
+    val ip: String = "192.168.123.106"
+    val URL: String = "cervejaria/web/pedidoapp/"
+    val CARDAPIO: String = "cardapio"
+    val PEDIR: String = "pedir"
 
     private var client = okhttp3.OkHttpClient()
 
 
-
-
-
-    fun cardapio():String {
+    @Throws(Exception::class)
+    fun cardapio(): String {
         val url: HttpUrl = HttpUrl.Builder()
                 .scheme("http")
                 .host(ip)
-                .addPathSegments(URL+CARDAPIO)
+                .addPathSegments(URL + CARDAPIO)
                 .build()
 
 
@@ -33,6 +31,7 @@ class Comunicacao {
                 .build()
 
         //execução da requisição
+
         client.newCall(request).execute().use { response ->
             if (!response.isSuccessful)
                 throw IOException("Unexpected code $response")
@@ -48,11 +47,12 @@ class Comunicacao {
     //            .add("search", "Jurassic Park")
     //            .build()
      */
-    fun enviaPedido(formBody:FormBody, pk_venda:String):String {
+    @Throws(Exception::class)
+    fun enviaPedido(formBody: FormBody, pk_venda: String): String {
         val url: HttpUrl = HttpUrl.Builder()
                 .scheme("http")
                 .host(ip)
-                .addPathSegments(URL+PEDIR)
+                .addPathSegments(URL + PEDIR)
                 .addQueryParameter("pk_venda", pk_venda) //inclui parâmetros GET
                 .build()
 
@@ -62,7 +62,6 @@ class Comunicacao {
                 .url(url)
                 .post(formBody)
                 .build()
-
 
 
         //execução da requisição

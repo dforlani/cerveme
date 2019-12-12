@@ -22,7 +22,9 @@ class ViewPedido() : AppCompatActivity() {
 
 
     private var cardapioList: ArrayList<Cardapio> = ArrayList()
-    public var pedidoList: ArrayList<Pedido>? = null
+    //vai armazenar quais itens que foram solicitados para depois ser associado ao pedido criado
+    private var itensPedido: ArrayList<Cardapio> = ArrayList()
+    private var pedidoList: ArrayList<Pedido>? = null
 
     private var adapter: CardapioListAdapter? = null
     var com = Comunicacao()
@@ -51,6 +53,7 @@ class ViewPedido() : AppCompatActivity() {
         var count = 0
         cardapioList.forEach {
             if (it.quantidade.toInt() > 0) {
+                itensPedido.add(it)
                 formBuilder.add("itens[${it.pk_preco}][pk_preco]", it.pk_preco)
                 formBuilder.add("itens[${it.pk_preco}][quantidade]", it.quantidade)
                 count++
@@ -59,28 +62,35 @@ class ViewPedido() : AppCompatActivity() {
 
         if (count > 0) {
 
+            try {
 
-            val formBody = formBuilder.build()
-
-
-            var resposta = com.enviaPedido(formBody, "703")
-
-            val gson2 = GsonBuilder().setPrettyPrinting().create()
-            var pedido: Pedido = gson2.fromJson(resposta, object : TypeToken<Pedido>() {}.type)
-            pedidoList!!.add(pedido)
-
-            if (pedido.status == "Erro") {
-                Toast.makeText(this@ViewPedido, "Problemas na comunicação com o servidor, dirija-se ao caixa.", Toast.LENGTH_LONG).show()
-            } else {
-                Toast.makeText(this@ViewPedido, "Pedido recebido com sucesso.", Toast.LENGTH_LONG).show()
-                val intent = Intent(this, MainActivity::class.java)
-                intent.putExtra("pedidoList", pedidoList)
+                val formBody = formBuilder.build()
 
 
-                //setResult(Activity.RESULT_OK, intent)
-                startActivityForResult(intent, Activity.RESULT_OK)
+                var resposta = com.enviaPedido(formBody, "703")
 
-                finish()
+                //transforma a respota JSon em um objeto do tipo pedido
+                val gson2 = GsonBuilder().setPrettyPrinting().create()
+                var pedido: Pedido = gson2.fromJson(resposta, object : TypeToken<Pedido>() {}.type)
+
+                pedido.itens = itensPedido
+                pedidoList!!.add(pedido)
+
+                if (pedido.status == "Erro") {
+                    Toast.makeText(this@ViewPedido, "Problemas na comunicação com o servidor, dirija-se ao caixa.", Toast.LENGTH_LONG).show()
+                } else {
+                    Toast.makeText(this@ViewPedido, "Pedido enviado com sucesso.", Toast.LENGTH_LONG).show()
+
+                    //envio da pedidoList de volta para a MainActivity
+                    val intent = Intent(this, MainActivity::class.java)
+                    intent.putExtra("pedidoList", pedidoList)
+                    startActivityForResult(intent, Activity.RESULT_OK)
+
+                    //fecha a Activity atual
+                    finish()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(this@ViewPedido, "Ocorreu um erro no envio do pedido. Tente novamente. Se o problema persistir, procure o Caixa.", Toast.LENGTH_LONG).show()
             }
         } else {
             Toast.makeText(this@ViewPedido, "Adicione ao menos 1 item para realizar o pedido.", Toast.LENGTH_LONG).show()
@@ -89,18 +99,22 @@ class ViewPedido() : AppCompatActivity() {
 
     fun requisitaCardapio() {
 
+        try {
+            cardapioList.clear()
 
-        cardapioList.clear()
+            //cria o objeto que vai processar a string de cardapio e gerar a List
+            val gson2 = GsonBuilder().setPrettyPrinting().create()
+            var list: List<Cardapio> = gson2.fromJson(com.cardapio(), object : TypeToken<List<Cardapio>>() {}.type)
 
-        //cria o objeto que vai processar a string de cardapio e gerar a List
-        val gson2 = GsonBuilder().setPrettyPrinting().create()
-        var list: List<Cardapio> = gson2.fromJson(com.cardapio(), object : TypeToken<List<Cardapio>>() {}.type)
+            cardapioList.addAll(list)
 
-        cardapioList.addAll(list)
+            adapter = CardapioListAdapter(this, cardapioList)
 
-        adapter = CardapioListAdapter(this, cardapioList)
-
-        listViewCardapio.adapter = adapter
+            listViewCardapio.adapter = adapter
+        } catch (e: Exception) {
+            Toast.makeText(this@ViewPedido, "Ocorreu um erro na solicitação do cardápio. Tente novamente. Se o problema persistir, procure o Caixa.", Toast.LENGTH_LONG).show()
+            finish()
+        }
     }
 
 
