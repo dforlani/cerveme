@@ -5,22 +5,18 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.StrictMode
 import android.support.v7.app.AppCompatActivity
+import android.widget.Toast
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonParser
 import com.google.gson.reflect.TypeToken
 import io.github.cerveme.crud_kotlin.adapter.PedidoExpListAdapter
-import io.github.cerveme.crud_kotlin.adapter.PedidoListAdapter
 import io.github.cerveme.crud_kotlin.comunicacao.Comunicacao
+import io.github.cerveme.crud_kotlin.database.DatabaseHelper
+import io.github.cerveme.crud_kotlin.model.Cliente
 import io.github.cerveme.crud_kotlin.model.Pedido
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
-import android.support.v4.app.SupportActivity
-import android.support.v4.app.SupportActivity.ExtraData
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-
-
-
 
 
 class MainActivity : AppCompatActivity() {
@@ -29,9 +25,11 @@ class MainActivity : AppCompatActivity() {
     private var jsonParser: JsonParser? = null
     private var gson: Gson? = null
     private var pedidoList: ArrayList<Pedido> = ArrayList()
-    private var adapter: PedidoListAdapter? = null
     private var expAdapter: PedidoExpListAdapter? = null
     var com = Comunicacao()
+
+
+    private var pk_cliente = "14"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,9 +54,12 @@ class MainActivity : AppCompatActivity() {
             expListViewPedido.setAdapter(expAdapter)
         }
 
+        inicializaCliente()
+
         btnAddPedido.setOnClickListener({ v ->
             val i = Intent(v.context, ViewPedido::class.java)
             i.putExtra("pedidoList", pedidoList)
+            i.putExtra("pk_cliente", pk_cliente)
             v.context.startActivity(i)
         })
 
@@ -71,7 +72,7 @@ class MainActivity : AppCompatActivity() {
      */
     fun atualizaStatusPedidos() {
         val thread = Thread {
-            println("${Thread.currentThread()} has run.")
+
             while(true){
                 pedidoList.forEach{
                     if(it.esperandoResposta()) {
@@ -101,6 +102,13 @@ class MainActivity : AppCompatActivity() {
         }
 
         thread.start()
+    }
+
+    private fun inicializaCliente(){
+        val dbHandler = DatabaseHelper(this, null)
+        val user = Cliente(pk_cliente, "Diogo")
+        dbHandler.addName(user)
+        Toast.makeText(this, user.nome + "Added to database", Toast.LENGTH_LONG).show()
     }
 
 

@@ -27,23 +27,29 @@ class ViewPedido() : AppCompatActivity() {
     private var pedidoList: ArrayList<Pedido>? = null
 
     private var adapter: CardapioListAdapter? = null
-    var com = Comunicacao()
+    private var pk_cliente = "0"
+    private var com = Comunicacao()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_pedido)
-        //recebe as
+
+        //recebe as informações da activity main
         val b = intent.extras
 
-        if (b != null)
+        if (b != null) {
             pedidoList = (b.get("pedidoList") as ArrayList<Pedido>)
+            pk_cliente = (b.get("pk_cliente") as String)
+        }
+
+        requisitaCardapio()
 
         btnCadastrar.setOnClickListener {
             enviaPedido()
         }
 
-        requisitaCardapio()
+
     }
 
     @SuppressLint("InflateParams")
@@ -67,31 +73,37 @@ class ViewPedido() : AppCompatActivity() {
                 val formBody = formBuilder.build()
 
 
-                var resposta = com.enviaPedido(formBody, "703")
+                var resposta = com.enviaPedido(formBody, pk_cliente)
 
                 //transforma a respota JSon em um objeto do tipo pedido
                 val gson2 = GsonBuilder().setPrettyPrinting().create()
                 var pedido: Pedido = gson2.fromJson(resposta, object : TypeToken<Pedido>() {}.type)
 
-                pedido.itens = itensPedido
-                pedidoList!!.add(pedido)
-
-                if (pedido.status == "Erro") {
-                    Toast.makeText(this@ViewPedido, "Problemas na comunicação com o servidor, dirija-se ao caixa.", Toast.LENGTH_LONG).show()
+                //retorno de mensagem de erro
+                if (pedido.pk_pedido_app == "-1") {
+                    Toast.makeText(this@ViewPedido, "Erro: "+pedido.status, Toast.LENGTH_LONG).show()
                 } else {
-                    Toast.makeText(this@ViewPedido, "Pedido enviado com sucesso.", Toast.LENGTH_LONG).show()
+                    pedido.itens = itensPedido
+                    pedidoList!!.add(pedido)
 
-                    //envio da pedidoList de volta para a MainActivity
-                    val intent = Intent(this, MainActivity::class.java)
-                    intent.putExtra("pedidoList", pedidoList)
-                    startActivityForResult(intent, Activity.RESULT_OK)
+                    if (pedido.status == "Erro") {
+                        Toast.makeText(this@ViewPedido, "Problemas na comunicação com o servidor, dirija-se ao caixa.", Toast.LENGTH_LONG).show()
+                    } else {
+                        Toast.makeText(this@ViewPedido, "Pedido enviado com sucesso.", Toast.LENGTH_LONG).show()
 
-                    //fecha a Activity atual
-                    finish()
+                        //envio da pedidoList de volta para a MainActivity
+                        val intent = Intent(this, MainActivity::class.java)
+                        intent.putExtra("pedidoList", pedidoList)
+                        startActivityForResult(intent, Activity.RESULT_OK)
+
+                        //fecha a Activity atual
+                        finish()
+                    }
                 }
             } catch (e: Exception) {
                 Toast.makeText(this@ViewPedido, "Ocorreu um erro no envio do pedido. Tente novamente. Se o problema persistir, procure o Caixa.", Toast.LENGTH_LONG).show()
             }
+
         } else {
             Toast.makeText(this@ViewPedido, "Adicione ao menos 1 item para realizar o pedido.", Toast.LENGTH_LONG).show()
         }

@@ -50,12 +50,12 @@ class Comunicacao {
     //            .build()
      */
     @Throws(Exception::class)
-    fun enviaPedido(formBody: FormBody, pk_venda: String): String {
+    fun enviaPedido(formBody: FormBody, pk_cliente: String): String {
         val url: HttpUrl = HttpUrl.Builder()
                 .scheme("http")
                 .host(ip)
                 .addPathSegments(URL + PEDIR)
-                .addQueryParameter("pk_venda", pk_venda) //inclui parâmetros GET
+                .addQueryParameter("pk_cliente", pk_cliente) //inclui parâmetros GET
                 .build()
 
 
