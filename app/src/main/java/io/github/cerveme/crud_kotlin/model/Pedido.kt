@@ -12,4 +12,8 @@ class Pedido :Serializable{
     : String {
         return status
     }
+
+    public fun esperandoResposta():Boolean{
+        return status == "Enviado" || status == "Em Atendimento"
+    }
 }

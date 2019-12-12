@@ -12,8 +12,10 @@ class Comunicacao {
     val URL: String = "cervejaria/web/pedidoapp/"
     val CARDAPIO: String = "cardapio"
     val PEDIR: String = "pedir"
+    val VERIFICARSTATUSPEDIDO:String = "verificar-status-pedido"
 
     private var client = okhttp3.OkHttpClient()
+
 
 
     @Throws(Exception::class)
@@ -61,6 +63,38 @@ class Comunicacao {
         val request = Request.Builder()
                 .url(url)
                 .post(formBody)
+                .build()
+
+
+        //execução da requisição
+        client.newCall(request).execute().use { response ->
+            if (!response.isSuccessful)
+                throw IOException("Unexpected code $response")
+
+            return response.body!!.string()
+
+        }
+    }
+
+
+    /** //parâmetros POST
+     * val formBody = FormBody.Builder()
+    //            .add("search", "Jurassic Park")
+    //            .build()
+     */
+    @Throws(Exception::class)
+    fun verificaStatusPedido(pk_pedido_app: String): String {
+        val url: HttpUrl = HttpUrl.Builder()
+                .scheme("http")
+                .host(ip)
+                .addPathSegments(URL + VERIFICARSTATUSPEDIDO)
+                .addQueryParameter("pk_pedido_app", pk_pedido_app) //inclui parâmetros GET
+                .build()
+
+
+        //montagem da requisição
+        val request = Request.Builder()
+                .url(url)
                 .build()
 
 
