@@ -57,7 +57,7 @@ class CardapioListAdapter(private var activity: Activity, private var items: Arr
 
 
         val cardapio = items[position]
-        viewHolder.txtTitle?.text = cardapio.denominacao
+        viewHolder.txtTitle?.text = cardapio.denominacao + " - R$ " +cardapio.preco
         viewHolder.posicao = position
 
         viewHolder.btnPlus?.setOnClickListener {

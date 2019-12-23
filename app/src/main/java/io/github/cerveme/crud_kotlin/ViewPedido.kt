@@ -92,6 +92,9 @@ class ViewPedido() : AppCompatActivity() {
                     Toast.makeText(this@ViewPedido, "Erro: "+pedido.status, Toast.LENGTH_LONG).show()
                 } else {
                     pedido.itens = itensPedido
+                    //val novaLista:ArrayList<Pedido> = ArrayList<Pedido>()
+                    //novaLista.add(pedido)
+                    //pedidoList =  novaLista + pedidoList
                     pedidoList!!.add(pedido)
 
                     if (pedido.status == "Erro") {

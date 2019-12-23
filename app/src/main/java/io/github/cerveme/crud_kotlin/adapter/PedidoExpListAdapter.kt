@@ -56,6 +56,10 @@ class PedidoExpListAdapter(internal var ctx: Context,  private var pedidos: Arra
 
         val parent_textvew = convertView!!.findViewById(R.id.parent_txt) as TextView
         parent_textvew.text = pedidos[parent].status
+
+        val dt_pedido_text = convertView!!.findViewById(R.id.dt_pedido_text) as TextView
+        dt_pedido_text.text = "Solicitado em: "+pedidos[parent].dt_pedido
+
         return convertView
     }
 
@@ -70,6 +74,9 @@ class PedidoExpListAdapter(internal var ctx: Context,  private var pedidos: Arra
 
         val child_textvew = convertView!!.findViewById(R.id.child_txt) as TextView
         child_textvew.text = getChild(parent, child).quantidade+" "+getChild(parent, child).denominacao
+
+        val preco_textvew = convertView!!.findViewById(R.id.preco_text) as TextView
+        preco_textvew.text = "R$ "+getChild(parent, child).preco
         return convertView
     }
 

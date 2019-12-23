@@ -101,6 +101,7 @@ class MainActivity : AppCompatActivity() {
         val thread = Thread {
 
             while (true) {
+                var teveAlteracao = false;
                 pedidoList.forEach {
                     if (it.esperandoResposta()) {
                         var resposta = com.verificaStatusPedido(it.pk_pedido_app)
@@ -108,19 +109,20 @@ class MainActivity : AppCompatActivity() {
                         //transforma a respota JSon em um objeto do tipo pedido
                         val gson2 = GsonBuilder().setPrettyPrinting().create()
                         var pedido: Pedido = gson2.fromJson(resposta, object : TypeToken<Pedido>() {}.type)
+                        if (it.status != pedido.status) {
+                            it.status = pedido.status
+                            teveAlteracao = true;
+                        }
 
-                        it.status = pedido.status
-                        println(pedido.status)
-
-                        //a thread não pode acessar as views, apenas a thread principal que pode, por
-                        //isso precisamos desse comando especial
-                        this@MainActivity.runOnUiThread(java.lang.Runnable {
-                            expAdapter = PedidoExpListAdapter(this, pedidoList)
-                            expListViewPedido.setAdapter(expAdapter)
-                        })
                     }
-
-
+                }
+                if (teveAlteracao) {
+                    //a thread não pode acessar as views, apenas a thread principal que pode, por
+                    //isso precisamos desse comando especial
+                    this@MainActivity.runOnUiThread(java.lang.Runnable {
+                        expAdapter = PedidoExpListAdapter(this, pedidoList)
+                        expListViewPedido.setAdapter(expAdapter)
+                    })
                 }
                 //atualiza os status a cada 10 segundos
                 Thread.sleep(10000)
@@ -131,6 +133,10 @@ class MainActivity : AppCompatActivity() {
         thread.start()
     }
 
+    /**
+     * Requisita as comandas abertas ao sistema.
+     * Precisa ser por Thread pq o android não permiti fazer isso diretamente na Thread principal, pra não travar o sistema
+     */
     fun requisitaPedidosComandaAberta() {
         val thread = Thread {
             //parâmetros POST
@@ -138,7 +144,7 @@ class MainActivity : AppCompatActivity() {
 
 
             try {
-                val formBody = formBuilder.build()
+
                 val dbHandler = DatabaseHelper(this, null)
                 //remove o código antigo antes de incluir o novo
                 val codigo_cliente_app = dbHandler.getCodigoCliente()
@@ -152,9 +158,17 @@ class MainActivity : AppCompatActivity() {
                 //retorno de mensagem de erro
                 if (pedidos.size > 0) {
                     pedidoList = pedidos
+
+                    //a thread não pode acessar as views, apenas a thread principal que pode, por
+                    //isso precisamos desse comando especial
+                    this@MainActivity.runOnUiThread(java.lang.Runnable {
+                        expAdapter = PedidoExpListAdapter(this, pedidoList)
+                        expListViewPedido.setAdapter(expAdapter)
+                    })
+
                 }
             } catch (e: Exception) {
-               var i:Int = 0
+                var i: Int = 0
                 //Toast.makeText(this@MainActivity, "Ocorreu um erro na solicitação dos pedidos já enviados anteriormente. Tente novamente. Se o problema persistir, procure o Caixa.", Toast.LENGTH_LONG).show()
             }
         }

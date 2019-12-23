@@ -51,12 +51,12 @@ class Comunicacao {
     //            .build()
      */
     @Throws(Exception::class)
-    fun enviaPedido(formBody: FormBody, codigo_cliente: String): String {
+    fun enviaPedido(formBody: FormBody, codigo_cliente_app: String): String {
         val url: HttpUrl = HttpUrl.Builder()
                 .scheme("http")
                 .host(ip)
                 .addPathSegments(URL + PEDIR)
-                .addQueryParameter("codigo_cliente", codigo_cliente) //inclui parâmetros GET
+                .addQueryParameter("codigo_cliente_app", codigo_cliente_app) //inclui parâmetros GET
                 .build()
 
 
