@@ -12,7 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".BackendVolley"/>
+
         <activity android:name="io.github.cerveme.crud_kotlin.MainActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="sensorPortrait">
@@ -23,13 +23,11 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".old.VeiculoDetalheActivity_old"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="sensorPortrait"/>
-        <activity android:name=".old.AddVeiculo_old"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="sensorPortrait"/>
+
         <activity android:name="io.github.cerveme.crud_kotlin.ViewPedido"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="sensorPortrait"/>
+        <activity android:name="io.github.cerveme.crud_kotlin.ViewConfiguracao"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="sensorPortrait"/>
     </application>

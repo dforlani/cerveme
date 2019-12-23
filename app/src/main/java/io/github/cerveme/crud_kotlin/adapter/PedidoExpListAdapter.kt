@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.pedido_child_layout.*
 
 class PedidoExpListAdapter(internal var ctx: Context,  private var pedidos: ArrayList<Pedido>) : BaseExpandableListAdapter() {
 
-     override fun getGroupCount(): Int {
+    override fun getGroupCount(): Int {
         return pedidos.size
     }
 
@@ -38,7 +38,7 @@ class PedidoExpListAdapter(internal var ctx: Context,  private var pedidos: Arra
     }
 
     override fun getChildId(parent: Int, child: Int): Long {
-        return pedidos[parent].itens[child].pk_preco.toLong()
+        return pedidos[parent].itens[child].fk_preco.toLong()
     }
 
     override fun hasStableIds(): Boolean {

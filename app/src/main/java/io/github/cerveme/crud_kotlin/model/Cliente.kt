@@ -1,11 +1,10 @@
 package io.github.cerveme.crud_kotlin.model
 
 class Cliente {
-    var pk_cliente: String? = null
-    var nome: String? = null
-    constructor( pk_cliente: String, nome:String) {
-        this.pk_cliente = pk_cliente
-        this.nome = nome
+    var codigo_cliente: String? = null
+    constructor( codigo_cliente: String) {
+        this.codigo_cliente = codigo_cliente
+        //this.nome = nome
     }
 
 }

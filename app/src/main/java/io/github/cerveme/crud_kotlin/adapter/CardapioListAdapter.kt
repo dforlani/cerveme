@@ -90,7 +90,7 @@ class CardapioListAdapter(private var activity: Activity, private var items: Arr
     }
 
     override fun getItemId(i: Int): Long {
-        return  items[i].pk_preco.toLong()
+        return  items[i].fk_preco.toLong()
     }
 
     override fun getCount(): Int {

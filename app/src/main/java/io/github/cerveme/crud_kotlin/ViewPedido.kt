@@ -1,7 +1,6 @@
 package io.github.cerveme.crud_kotlin
 
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
@@ -11,6 +10,7 @@ import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import io.github.cerveme.crud_kotlin.adapter.CardapioListAdapter
 import io.github.cerveme.crud_kotlin.comunicacao.Comunicacao
+import io.github.cerveme.crud_kotlin.database.DatabaseHelper
 import io.github.cerveme.crud_kotlin.model.Cardapio
 import io.github.cerveme.crud_kotlin.model.Pedido
 import kotlinx.android.synthetic.main.activity_add_pedido.*
@@ -27,7 +27,6 @@ class ViewPedido() : AppCompatActivity() {
     private var pedidoList: ArrayList<Pedido>? = null
 
     private var adapter: CardapioListAdapter? = null
-    private var pk_cliente = "0"
     private var com = Comunicacao()
 
 
@@ -39,8 +38,15 @@ class ViewPedido() : AppCompatActivity() {
         val b = intent.extras
 
         if (b != null) {
+            val lista = b.get("pedidoList")
+            if (lista != null) {
+                pedidoList = (b.get("pedidoList") as ArrayList<Pedido>)
+
+            } else {
+                pedidoList = ArrayList()
+            }
+
             pedidoList = (b.get("pedidoList") as ArrayList<Pedido>)
-            pk_cliente = (b.get("pk_cliente") as String)
         }
 
         requisitaCardapio()
@@ -52,7 +58,7 @@ class ViewPedido() : AppCompatActivity() {
 
     }
 
-    @SuppressLint("InflateParams")
+
     fun enviaPedido() {
         //parâmetros POST
         val formBuilder = FormBody.Builder()
@@ -60,8 +66,8 @@ class ViewPedido() : AppCompatActivity() {
         cardapioList.forEach {
             if (it.quantidade.toInt() > 0) {
                 itensPedido.add(it)
-                formBuilder.add("itens[${it.pk_preco}][pk_preco]", it.pk_preco)
-                formBuilder.add("itens[${it.pk_preco}][quantidade]", it.quantidade)
+                formBuilder.add("itens[${it.fk_preco}][fk_preco]", it.fk_preco)
+                formBuilder.add("itens[${it.fk_preco}][quantidade]", it.quantidade)
                 count++
             }
         }
@@ -71,7 +77,9 @@ class ViewPedido() : AppCompatActivity() {
             try {
 
                 val formBody = formBuilder.build()
-
+                val dbHandler = DatabaseHelper(this, null)
+                //remove o código antigo antes de incluir o novo
+                val pk_cliente = dbHandler.getCodigoCliente()
 
                 var resposta = com.enviaPedido(formBody, pk_cliente)
 
@@ -116,7 +124,8 @@ class ViewPedido() : AppCompatActivity() {
 
             //cria o objeto que vai processar a string de cardapio e gerar a List
             val gson2 = GsonBuilder().setPrettyPrinting().create()
-            var list: List<Cardapio> = gson2.fromJson(com.cardapio(), object : TypeToken<List<Cardapio>>() {}.type)
+            var resposta = com.cardapio()
+            var list: List<Cardapio> = gson2.fromJson(resposta, object : TypeToken<List<Cardapio>>() {}.type)
 
             cardapioList.addAll(list)
 
@@ -128,6 +137,9 @@ class ViewPedido() : AppCompatActivity() {
             finish()
         }
     }
+
+
+
 
 
 }

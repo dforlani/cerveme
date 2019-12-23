@@ -13,6 +13,7 @@ class Comunicacao {
     val CARDAPIO: String = "cardapio"
     val PEDIR: String = "pedir"
     val VERIFICARSTATUSPEDIDO:String = "verificar-status-pedido"
+    val REQUISITAPEDIDOSCOMANDAABERTA:String = "requisita-pedidos-comanda-aberta"
 
     private var client = okhttp3.OkHttpClient()
 
@@ -50,12 +51,12 @@ class Comunicacao {
     //            .build()
      */
     @Throws(Exception::class)
-    fun enviaPedido(formBody: FormBody, pk_cliente: String): String {
+    fun enviaPedido(formBody: FormBody, codigo_cliente: String): String {
         val url: HttpUrl = HttpUrl.Builder()
                 .scheme("http")
                 .host(ip)
                 .addPathSegments(URL + PEDIR)
-                .addQueryParameter("pk_cliente", pk_cliente) //inclui parâmetros GET
+                .addQueryParameter("codigo_cliente", codigo_cliente) //inclui parâmetros GET
                 .build()
 
 
@@ -89,6 +90,35 @@ class Comunicacao {
                 .host(ip)
                 .addPathSegments(URL + VERIFICARSTATUSPEDIDO)
                 .addQueryParameter("pk_pedido_app", pk_pedido_app) //inclui parâmetros GET
+                .build()
+
+
+        //montagem da requisição
+        val request = Request.Builder()
+                .url(url)
+                .build()
+
+
+        //execução da requisição
+        client.newCall(request).execute().use { response ->
+            if (!response.isSuccessful)
+                throw IOException("Unexpected code $response")
+
+            return response.body!!.string()
+
+        }
+    }
+
+    /**
+     * Requisita ao servidor todos os pedidos da comanda aberta
+     */
+    @Throws(Exception::class)
+    fun requisitaPedidosDaComandaAberta(codigo_cliente_app: String): String {
+        val url: HttpUrl = HttpUrl.Builder()
+                .scheme("http")
+                .host(ip)
+                .addPathSegments(URL + REQUISITAPEDIDOSCOMANDAABERTA)
+                .addQueryParameter("codigo_cliente_app", codigo_cliente_app) //inclui parâmetros GET
                 .build()
 
 

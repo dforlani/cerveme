@@ -7,7 +7,7 @@ apply plugin: 'kotlin-android-extensions'
 android {
     compileSdkVersion 27
     defaultConfig {
-        applicationId "io.github.adrianogba.crud_kotlin"
+        applicationId "io.github.dforlani.cerveme"
         minSdkVersion 19
         targetSdkVersion 27
         versionCode 1

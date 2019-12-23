@@ -1,0 +1,13 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="io.github.cerveme.crud_kotlin.MainActivity"
+    android:layout_height="30dp"
+    android:layout_width="30dp">
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="100"
+        android:title="Configurações"
+        android:icon="@android:drawable/btn_star" />
+
+</menu>
