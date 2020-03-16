@@ -2,6 +2,7 @@ package io.github.cerveme.crud_kotlin.adapter
 
 
 import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -56,6 +57,10 @@ class PedidoExpListAdapter(internal var ctx: Context,  private var pedidos: Arra
 
         val parent_textvew = convertView!!.findViewById(R.id.parent_txt) as TextView
         parent_textvew.text = pedidos[parent].status
+
+            parent_textvew.setTextColor(pedidos[parent].getColor())
+
+
 
         val dt_pedido_text = convertView!!.findViewById(R.id.dt_pedido_text) as TextView
         dt_pedido_text.text = "Solicitado em: "+pedidos[parent].dt_pedido

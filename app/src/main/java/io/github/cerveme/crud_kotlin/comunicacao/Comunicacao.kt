@@ -8,7 +8,8 @@ import java.io.IOException
 
 class Comunicacao {
 
-    val ip: String = "192.168.123.106"
+    val HOST: String = "testeddnscerveme.hopto.org"
+    val PORT:Int = 8585
     val URL: String = "cervejaria/web/pedidoapp/"
     val CARDAPIO: String = "cardapio"
     val PEDIR: String = "pedir"
@@ -23,7 +24,8 @@ class Comunicacao {
     fun cardapio(): String {
         val url: HttpUrl = HttpUrl.Builder()
                 .scheme("http")
-                .host(ip)
+                .host(HOST)
+                .port(PORT)
                 .addPathSegments(URL + CARDAPIO)
                 .build()
 
@@ -54,7 +56,8 @@ class Comunicacao {
     fun enviaPedido(formBody: FormBody, codigo_cliente_app: String): String {
         val url: HttpUrl = HttpUrl.Builder()
                 .scheme("http")
-                .host(ip)
+                .host(HOST)
+                .port(PORT)
                 .addPathSegments(URL + PEDIR)
                 .addQueryParameter("codigo_cliente_app", codigo_cliente_app) //inclui parâmetros GET
                 .build()
@@ -87,7 +90,8 @@ class Comunicacao {
     fun verificaStatusPedido(pk_pedido_app: String): String {
         val url: HttpUrl = HttpUrl.Builder()
                 .scheme("http")
-                .host(ip)
+                .host(HOST)
+                .port(PORT)
                 .addPathSegments(URL + VERIFICARSTATUSPEDIDO)
                 .addQueryParameter("pk_pedido_app", pk_pedido_app) //inclui parâmetros GET
                 .build()
@@ -116,7 +120,8 @@ class Comunicacao {
     fun requisitaPedidosDaComandaAberta(codigo_cliente_app: String): String {
         val url: HttpUrl = HttpUrl.Builder()
                 .scheme("http")
-                .host(ip)
+                .host(HOST)
+                .port(PORT)
                 .addPathSegments(URL + REQUISITAPEDIDOSCOMANDAABERTA)
                 .addQueryParameter("codigo_cliente_app", codigo_cliente_app) //inclui parâmetros GET
                 .build()
